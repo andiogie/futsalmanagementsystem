@@ -65,7 +65,7 @@ Route::post('/reset', [ForgotPasswordController::class, 'resetPassword'])
 // =====================
 // Route::middleware(['auth'])->prefix('admin')->group(function () {
 // Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-Route::middleware(['demo.auth', 'demo.role:admin'])->prefix('admin')->group(function () {
+Route::middleware(['demo.auth'])->prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
 
     // Member
@@ -118,7 +118,7 @@ Route::middleware(['demo.auth', 'demo.role:admin'])->prefix('admin')->group(func
 // =====================
 // Route::middleware(['auth'])->prefix('member')->name('member.')->group(function () {
 // Route::middleware(['auth', 'role:member'])->prefix('member')->group(function () {
-Route::middleware(['demo.auth', 'demo.role:member'])->prefix('member')->group(function () {
+Route::middleware(['demo.auth'])->prefix('member')->group(function () {
     Route::get('/', [RekeningController::class, 'indexMember'])->name('member.index');
 
     Route::get('/calendar', function () {
