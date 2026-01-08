@@ -18,28 +18,71 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        /*
+        |--------------------------------------------------------------------------
+        | DEMO MODE (BYPASS DATABASE & OTP)
+        |--------------------------------------------------------------------------
+        | Aktifkan dengan DEMO_MODE=true di .env / Railway Variables
+        */
+        if (config('app.demo_mode')) {
+
+            // Admin Demo
+            if ($request->email === 'admin@demo.com') {
+                session([
+                    'demo_login' => true,
+                    'demo_user' => [
+                        'name' => 'Admin Demo',
+                        'email' => 'admin@demo.com',
+                        'roles' => 'admin',
+                    ],
+                ]);
+
+                return redirect()->route('admin.index');
+            }
+
+            // Member Demo
+            if ($request->email === 'member@demo.com') {
+                session([
+                    'demo_login' => true,
+                    'demo_user' => [
+                        'name' => 'Member Demo',
+                        'email' => 'member@demo.com',
+                        'roles' => 'member',
+                    ],
+                ]);
+
+                return redirect()->route('member.index');
+            }
+
+            return back()->withErrors([
+                'email' => 'Gunakan akun demo: admin@demo.com atau member@demo.com',
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | LOGIN NORMAL (PRODUCTION)
+        |--------------------------------------------------------------------------
+        */
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Cek apakah email sudah ada di database
-        $user = \App\Models\User::where('email', $request->email)->first();
+        // Cek apakah email ada
+        $user = User::where('email', $request->email)->first();
         if (!$user) {
-            return redirect()->route('register.member.form') // ganti sesuai route register kamu
-                ->withErrors(['email' => 'Email belum terdaftar. Silakan registrasi dulu.']);
+            return redirect()->route('register.member.form')
+                ->withErrors(['email' => 'Email belum terdaftar.']);
         }
 
-        // Kalau email ada → cek password
+        // Cek password
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-
             $user = Auth::user();
 
-
-            // Cek apakah sudah verifikasi email
+            // Cek verifikasi
             if (!$user->is_verified) {
-                // generate OTP baru
                 $otp = rand(100000, 999999);
 
                 User::where('id', $user->id)->update([
@@ -47,26 +90,28 @@ class LoginController extends Controller
                     'otp_expires_at' => now()->addMinutes(10),
                 ]);
 
-                // kirim via Notification
-                // $user->notify(new OtpNotification($otp));
+                // Kirim OTP (boleh dimatikan di demo)
                 Notification::send($user, new OtpNotification($otp));
 
-                Auth::logout(); // logout dulu biar tidak bisa akses
+                Auth::logout();
+
                 return redirect()->route('otp.verify.form', ['email' => $user->email])
-                    ->withErrors(['email' => 'Akun belum diverifikasi. Silakan masukkan kode OTP yang sudah dikirim.']);
+                    ->withErrors(['email' => 'Akun belum diverifikasi.']);
             }
 
-            // cek role
-            if ($user->roles === 'admin' || $user->roles === 'owner') {
+            // Redirect by role
+            if (in_array($user->roles, ['admin', 'owner'])) {
                 return redirect()->route('admin.index');
-            } elseif ($user->roles === 'member') {
-                return redirect()->route('member.index');
-            } else {
-                Auth::logout();
-                return redirect('/login')->withErrors([
-                    'email' => 'Role tidak dikenali. Hubungi admin.',
-                ]);
             }
+
+            if ($user->roles === 'member') {
+                return redirect()->route('member.index');
+            }
+
+            Auth::logout();
+            return redirect('/login')->withErrors([
+                'email' => 'Role tidak dikenali.',
+            ]);
         }
 
         return back()->withErrors([
@@ -74,11 +119,13 @@ class LoginController extends Controller
         ])->withInput();
     }
 
-
-
     public function logout(Request $request)
     {
         Auth::logout();
+
+        $request->session()->forget('demo_login');
+        $request->session()->forget('demo_user');
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
