@@ -25,6 +25,19 @@ Route::get('/', function () {
 });
 
 
+Route::middleware(['demo.auth', 'demo.role:admin'])
+    ->prefix('admin')
+    ->group(function () {
+        Route::get('/', fn() => view('admin.dashboard'))->name('admin.index');
+    });
+
+Route::middleware(['demo.auth', 'demo.role:member'])
+    ->prefix('member')
+    ->group(function () {
+        Route::get('/', fn() => view('member.dashboard'))->name('member.index');
+    });
+
+
 // =====================
 // Auth
 // =====================
