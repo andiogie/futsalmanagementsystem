@@ -25,18 +25,6 @@ Route::get('/', function () {
 });
 
 
-Route::middleware(['demo.auth', 'demo.role:admin'])
-    ->prefix('admin')
-    ->group(function () {
-        Route::get('/', fn() => view('admin.dashboard'))->name('admin.index');
-    });
-
-Route::middleware(['demo.auth', 'demo.role:member'])
-    ->prefix('member')
-    ->group(function () {
-        Route::get('/', fn() => view('member.dashboard'))->name('member.index');
-    });
-
 
 // =====================
 // Auth
@@ -76,7 +64,8 @@ Route::post('/reset', [ForgotPasswordController::class, 'resetPassword'])
 // Dashboard Admin (Wajib Login)
 // =====================
 // Route::middleware(['auth'])->prefix('admin')->group(function () {
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+// Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+Route::middleware(['demo.auth', 'demo.role:admin'])->prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
 
     // Member
@@ -128,7 +117,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 // Mobile (Wajib Login)
 // =====================
 // Route::middleware(['auth'])->prefix('member')->name('member.')->group(function () {
-Route::middleware(['auth', 'role:member'])->prefix('member')->group(function () {
+// Route::middleware(['auth', 'role:member'])->prefix('member')->group(function () {
+Route::middleware(['demo.auth', 'demo.role:member'])->prefix('member')->group(function () {
     Route::get('/', [RekeningController::class, 'indexMember'])->name('member.index');
 
     Route::get('/calendar', function () {
