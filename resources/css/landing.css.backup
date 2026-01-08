@@ -1,0 +1,14 @@
+/* resources/css/landing.css */
+
+/* Contoh kustomisasi tambahan di luar Tailwind */
+
+/* Warna background untuk section hero saat hover */
+section:hover {
+    transition: background-color 0.3s ease;
+}
+
+/* Efek hover untuk kartu fitur */
+.bg-white:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}

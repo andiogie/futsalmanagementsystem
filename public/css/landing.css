@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+h1, h2, h3, h4 {
+    margin: 0 0 15px;
+    font-weight: bold;
+}
+
+.hero {
+    background: url('https://source.unsplash.com/1600x900/?futsal') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.hero-overlay {
+    background: rgba(0,0,0,0.6);
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.hero {
+    background: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    margin-top: 15px;
+    background: #00c853;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background 0.3s;
+}
+.btn:hover {
+    background: #009624;
+}
+
+.card .icon {
+    font-size: 40px;
+    color: #00c853;
+    margin-bottom: 15px;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.card:hover .icon {
+    color: #009624;
+    transform: scale(1.2);
+}
+
+
+/* Sections */
+section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.why-cards, .testi-cards, .facility-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card, .testi, .facility {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+.card:hover, .facility:hover, .testi:hover {
+    transform: translateY(-10px);
+}
+
+.facility img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.booking {
+    background: #00c853;
+    color: white;
+}
+
+.maps {
+    padding: 80px 20px;
+    text-align: center;
+    background: #f9f9f9;
+}
+
+.map-container {
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+
+footer {
+    background: #222;
+    color: #bbb;
+    text-align: center;
+    padding: 20px;
+}
