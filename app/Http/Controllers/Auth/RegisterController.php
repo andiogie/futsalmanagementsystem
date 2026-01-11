@@ -35,8 +35,9 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'nowa' => [
                 'required',
-                'regex:/^[0-9]+$/',       // hanya boleh angka
-                'digits_between:10,15',   // panjang 10 sampai 15 digit
+                'regex:/^[0-9]+$/',
+                'digits_between:10,15',
+                'unique:users,nowa',
             ],
             [
                 'name.required' => 'Nama wajib diisi.',
@@ -48,6 +49,7 @@ class RegisterController extends Controller
                 'password.confirmed' => 'Konfirmasi password tidak cocok.',
                 'nowa.required' => 'Nomor WhatsApp wajib diisi.',
                 'nowa.regex' => 'Format Nomor WhatsApp tidak valid.',
+                'nowa.unique' => 'Nomor WhatsApp sudah terdaftar.'
             ]
         ]);
 
