@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\User;
 use App\Models\Booking;
 use App\Models\Lapangan;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
