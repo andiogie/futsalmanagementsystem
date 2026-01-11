@@ -2,12 +2,12 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" crossorigin="anonymous">
     {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
     <title>@yield('title', 'Member FutsalGo')</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png" crossorigin="anonymous">
 
     <!-- Tailwind & Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
